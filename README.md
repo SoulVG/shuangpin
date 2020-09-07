@@ -1,3 +1,5 @@
+增加了英文评分。[访问此处](https://soulvg.github.io/shuangpin/eval.html)
+增加部分的代码来自[此处](https://tieba.baidu.com/p/5557786407?pn=2)，42楼层主兹沃伊。若侵权请联系我删除！
 # 输入法生成器
 
 [在此](https://macroxue.github.io/shuangpin/eval.html)生成你自己的输入法。
