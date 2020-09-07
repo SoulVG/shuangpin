@@ -13,7 +13,8 @@ var schemes = {
   乱序优化:'Q=ua,W=x uan,E=q uang v,R=j ue ve ui,T=0 un,Y=c iu,U=g ing,I=k iong ou,O=h iang,P=ie,A=t ong,S=l ao,D=y ai,F=d an,G=n ang,H=r in,J=sh e,K=w i er,L=zh u,FH=ch a ia,Z=p ei,X=m en,C=f eng,V=b o uo,B=uai,N=s iao,M=z ian',
   自定义:'Q=,W=,E=,R=,T=,Y=,U=,I=,O=,P=,A=,S=,D=,F=,G=,H=,J=,K=,L=,FH=,Z=,X=,C=,V=,B=,N=,M=,DH=,JH=,CH=',
   empty:'Q=,W=,E=,R=,T=,Y=,U=,I=,O=,P=,A=,S=,D=,F=,G=,H=,J=,K=,L=,FH=,Z=,X=,C=,V=,B=,N=,M=,DH=,JH=,CH=',
-  全拼:'Q=,W=,E=,R=,T=,Y=,U=,I=,O=,P=,A=,S=,D=,F=,G=,H=,J=,K=,L=,FH=,Z=,X=,C=,V=,B=,N=,M=,DH=,JH=,CH='
+  全拼:'Q=,W=,E=,R=,T=,Y=,U=,I=,O=,P=,A=,S=,D=,F=,G=,H=,J=,K=,L=,FH=,Z=,X=,C=,V=,B=,N=,M=,DH=,JH=,CH=',
+  英文:'Q=,W=,E=,R=,T=,Y=,U=,I=,O=,P=,A=,S=,D=,F=,G=,H=,J=,K=,L=,FH=,Z=,X=,C=,V=,B=,N=,M=,DH=,JH=,CH='
 };
 
 // Evaluation results of all schemes.
@@ -443,7 +444,32 @@ function convert_text_to_key_strokes(scheme_name, scheme) {
   var pm = read_pinyin_map_from_scheme(scheme);
   var error = pm.error;
   var pinyin_key_map = {};
-  if (scheme_name == '全拼') {
+  if (scheme_name == '英文') {
+  var input = document.getElementById('input-text').value;
+  var key_strokes = '';
+  var ignored = '';
+  for (var i = 0; i < input.length; ++i) {
+  var c = input[i].trim();
+  //c = c.toLowerCase();
+  if (c == '') {
+  continue;
+  }
+  var punctuation = punctuations[c];
+  if (punctuation != null) {
+  if(punctuation == '-'){
+  continue;
+  }
+  key_strokes += punctuation;
+  continue;
+  }
+  var is_letter = new RegExp("[A-Za-z]+");
+  if(is_letter.test(c)){
+  key_strokes += c;
+  }
+  }
+  key_strokes = key_strokes.toLowerCase();
+  return {strokes:key_strokes, error:error};
+  }else if (scheme_name == '全拼') {
     for (var i = 0; i < all_pinyin.length; ++i) {
       pinyin_key_map[all_pinyin[i]] = all_pinyin[i];
     }
